@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>v4.3b Centered Rings Judges</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root {
+  color-scheme: dark;
+  --bg:#050711;
+  --panel:#0f172a;
+  --line:#2e3a55;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --light:#93c5fd;
+  --shadow:#c084fc;
+  --witness:#fef08a;
+  --judge:#f97316;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  background: radial-gradient(circle at center, rgba(147,197,253,.14), transparent 34%), linear-gradient(180deg,#080b18,var(--bg));
+  color:var(--text);
+  font-family: system-ui, Segoe UI, sans-serif;
+}
+header {
+  padding:20px 24px;
+  background:rgba(15,23,42,.9);
+  border-bottom:1px solid var(--line);
+}
+main {
+  display:grid;
+  grid-template-columns:320px 1fr 360px;
+  gap:16px;
+  padding:16px;
+}
+section {
+  background:rgba(15,23,42,.88);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+}
+button {
+  width:100%;
+  padding:10px;
+  margin:6px 0;
+  background:#172033;
+  color:white;
+  border:1px solid var(--line);
+  border-radius:10px;
+  font-weight:800;
+}
+.stage {
+  position:relative;
+  height:720px;
+  border:1px solid var(--line);
+  border-radius:24px;
+  background:radial-gradient(circle at center, rgba(255,255,255,.05), transparent 70%);
+  overflow:hidden;
+}
+.core {
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  background:#111827;
+  border:3px solid white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  z-index:5;
+  box-shadow:0 0 36px rgba(255,255,255,.25);
+}
+.ring {
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.18);
+}
+.r0 { width:310px;height:310px;border-color:var(--light); }
+.r1 { width:470px;height:470px;border-color:var(--shadow); }
+.r2 { width:630px;height:630px;border-color:var(--witness); }
+.agent {
+  position:absolute;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-size:9px;
+  border:1px solid rgba(255,255,255,.28);
+  cursor:pointer;
+}
+.a0 { background:rgba(147,197,253,.85); color:#06111f; }
+.b0 { background:rgba(192,132,252,.85); color:#16051f; }
+.c0 { background:rgba(254,240,138,.9); color:#1f1a06; }
+.judge { background:var(--judge); color:#1f0902; width:58px; height:58px; font-weight:900; }
+.selected { outline:4px solid white; box-shadow:0 0 22px white; }
+pre {
+  background:#070914;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:10px;
+  max-height:440px;
+  overflow:auto;
+}
+.badge {
+  display:inline-block;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:4px 8px;
+  color:var(--muted);
+  margin:3px;
+}
+@media(max-width:1100px) { main { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<header>
+<h1>v4.3b — Centered Rings / Judge Decision Patch</h1>
+<div>Should AI systems be regulated like infrastructure or treated like open knowledge?</div>
+</header>
+<main>
+<section>
+<h2>Controls</h2>
+<button onclick="pulse()">Pulse Rings</button>
+<button onclick="showJudges()">Show Final Judges</button>
+<button onclick="resetSelect()">Reset View</button>
+<h2>Layout</h2>
+<pre>Ring 0a:
+2 witnesses
+male / female
+50 / 50
+
+Ring 0b:
+26 agents
+12 male
+12 female
+1 judge
+1 neutral clerk
+
+Repeated across:
+Light
+Shadow
+Witness
+
+Final:
+3 judges decide.</pre>
+</section>
+
+<section>
+<h2>Centered Rings</h2>
+<div class="stage" id="stage">
+  <div class="ring r2"></div>
+  <div class="ring r1"></div>
+  <div class="ring r0"></div>
+  <div class="core" id="core">CORE<br>TOPIC<br><b>synthesize</b></div>
+</div>
+</section>
+
+<section>
+<h2>Decision</h2>
+<div>
+<span class="badge">Light Judge</span>
+<span class="badge">Shadow Judge</span>
+<span class="badge">Witness Judge</span>
+</div>
+<pre id="info"></pre>
+</section>
+</main>
+<script>
+const record = {"version": "4.3b", "topic": "Should AI systems be regulated like infrastructure or treated like open knowledge?", "layout": "centered rings with 0a/0b per ring", "rings": [{"ring": "Light", "set_0a": [{"id": "Light-0a-M", "ring": "Light", "set": "0a", "role": "Witness Core A", "gender_balance": "male", "vote": "synthesize", "weight": 0.5}, {"id": "Light-0a-F", "ring": "Light", "set": "0a", "role": "Witness Core A", "gender_balance": "female", "vote": "synthesize", "weight": 0.5}], "set_0b": [{"id": "Light-0b-M01", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "affirm", "weight": 1.0}, {"id": "Light-0b-M02", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "oppose", "weight": 1.0}, {"id": "Light-0b-M03", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "synthesize", "weight": 1.0}, {"id": "Light-0b-M04", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "affirm", "weight": 1.0}, {"id": "Light-0b-M05", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "oppose", "weight": 1.0}, {"id": "Light-0b-M06", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "synthesize", "weight": 1.0}, {"id": "Light-0b-M07", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "affirm", "weight": 1.0}, {"id": "Light-0b-M08", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "oppose", "weight": 1.0}, {"id": "Light-0b-M09", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "synthesize", "weight": 1.0}, {"id": "Light-0b-M10", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "affirm", "weight": 1.0}, {"id": "Light-0b-M11", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "oppose", "weight": 1.0}, {"id": "Light-0b-M12", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "synthesize", "weight": 1.0}, {"id": "Light-0b-F01", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "synthesize", "weight": 1.0}, {"id": "Light-0b-F02", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "affirm", "weight": 1.0}, {"id": "Light-0b-F03", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "oppose", "weight": 1.0}, {"id": "Light-0b-F04", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "synthesize", "weight": 1.0}, {"id": "Light-0b-F05", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "affirm", "weight": 1.0}, {"id": "Light-0b-F06", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "oppose", "weight": 1.0}, {"id": "Light-0b-F07", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "synthesize", "weight": 1.0}, {"id": "Light-0b-F08", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "affirm", "weight": 1.0}, {"id": "Light-0b-F09", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "oppose", "weight": 1.0}, {"id": "Light-0b-F10", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "synthesize", "weight": 1.0}, {"id": "Light-0b-F11", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "affirm", "weight": 1.0}, {"id": "Light-0b-F12", "ring": "Light", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "oppose", "weight": 1.0}, {"id": "Light-0b-JUDGE", "ring": "Light", "set": "0b", "role": "Judge", "gender_balance": "court", "vote": "synthesize", "weight": 3.0}, {"id": "Light-0b-CLERK", "ring": "Light", "set": "0b", "role": "Neutral Clerk", "gender_balance": "neutral", "vote": "synthesize", "weight": 0.25}]}, {"ring": "Shadow", "set_0a": [{"id": "Shadow-0a-M", "ring": "Shadow", "set": "0a", "role": "Witness Core A", "gender_balance": "male", "vote": "synthesize", "weight": 0.5}, {"id": "Shadow-0a-F", "ring": "Shadow", "set": "0a", "role": "Witness Core A", "gender_balance": "female", "vote": "synthesize", "weight": 0.5}], "set_0b": [{"id": "Shadow-0b-M01", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "oppose", "weight": 1.0}, {"id": "Shadow-0b-M02", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "synthesize", "weight": 1.0}, {"id": "Shadow-0b-M03", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "affirm", "weight": 1.0}, {"id": "Shadow-0b-M04", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "oppose", "weight": 1.0}, {"id": "Shadow-0b-M05", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "synthesize", "weight": 1.0}, {"id": "Shadow-0b-M06", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "affirm", "weight": 1.0}, {"id": "Shadow-0b-M07", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "oppose", "weight": 1.0}, {"id": "Shadow-0b-M08", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "synthesize", "weight": 1.0}, {"id": "Shadow-0b-M09", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "affirm", "weight": 1.0}, {"id": "Shadow-0b-M10", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "oppose", "weight": 1.0}, {"id": "Shadow-0b-M11", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "synthesize", "weight": 1.0}, {"id": "Shadow-0b-M12", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "affirm", "weight": 1.0}, {"id": "Shadow-0b-F01", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "affirm", "weight": 1.0}, {"id": "Shadow-0b-F02", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "oppose", "weight": 1.0}, {"id": "Shadow-0b-F03", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "synthesize", "weight": 1.0}, {"id": "Shadow-0b-F04", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "affirm", "weight": 1.0}, {"id": "Shadow-0b-F05", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "oppose", "weight": 1.0}, {"id": "Shadow-0b-F06", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "synthesize", "weight": 1.0}, {"id": "Shadow-0b-F07", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "affirm", "weight": 1.0}, {"id": "Shadow-0b-F08", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "oppose", "weight": 1.0}, {"id": "Shadow-0b-F09", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "synthesize", "weight": 1.0}, {"id": "Shadow-0b-F10", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "affirm", "weight": 1.0}, {"id": "Shadow-0b-F11", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "oppose", "weight": 1.0}, {"id": "Shadow-0b-F12", "ring": "Shadow", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "synthesize", "weight": 1.0}, {"id": "Shadow-0b-JUDGE", "ring": "Shadow", "set": "0b", "role": "Judge", "gender_balance": "court", "vote": "synthesize", "weight": 3.0}, {"id": "Shadow-0b-CLERK", "ring": "Shadow", "set": "0b", "role": "Neutral Clerk", "gender_balance": "neutral", "vote": "synthesize", "weight": 0.25}]}, {"ring": "Witness", "set_0a": [{"id": "Witness-0a-M", "ring": "Witness", "set": "0a", "role": "Witness Core A", "gender_balance": "male", "vote": "synthesize", "weight": 0.5}, {"id": "Witness-0a-F", "ring": "Witness", "set": "0a", "role": "Witness Core A", "gender_balance": "female", "vote": "synthesize", "weight": 0.5}], "set_0b": [{"id": "Witness-0b-M01", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "synthesize", "weight": 1.0}, {"id": "Witness-0b-M02", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "affirm", "weight": 1.0}, {"id": "Witness-0b-M03", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "oppose", "weight": 1.0}, {"id": "Witness-0b-M04", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "synthesize", "weight": 1.0}, {"id": "Witness-0b-M05", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "affirm", "weight": 1.0}, {"id": "Witness-0b-M06", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "oppose", "weight": 1.0}, {"id": "Witness-0b-M07", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "synthesize", "weight": 1.0}, {"id": "Witness-0b-M08", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "affirm", "weight": 1.0}, {"id": "Witness-0b-M09", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "oppose", "weight": 1.0}, {"id": "Witness-0b-M10", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "synthesize", "weight": 1.0}, {"id": "Witness-0b-M11", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "affirm", "weight": 1.0}, {"id": "Witness-0b-M12", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "male", "vote": "oppose", "weight": 1.0}, {"id": "Witness-0b-F01", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "oppose", "weight": 1.0}, {"id": "Witness-0b-F02", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "synthesize", "weight": 1.0}, {"id": "Witness-0b-F03", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "affirm", "weight": 1.0}, {"id": "Witness-0b-F04", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "oppose", "weight": 1.0}, {"id": "Witness-0b-F05", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "synthesize", "weight": 1.0}, {"id": "Witness-0b-F06", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "affirm", "weight": 1.0}, {"id": "Witness-0b-F07", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "oppose", "weight": 1.0}, {"id": "Witness-0b-F08", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "synthesize", "weight": 1.0}, {"id": "Witness-0b-F09", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "affirm", "weight": 1.0}, {"id": "Witness-0b-F10", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "oppose", "weight": 1.0}, {"id": "Witness-0b-F11", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "synthesize", "weight": 1.0}, {"id": "Witness-0b-F12", "ring": "Witness", "set": "0b", "role": "Witness Agent", "gender_balance": "female", "vote": "affirm", "weight": 1.0}, {"id": "Witness-0b-JUDGE", "ring": "Witness", "set": "0b", "role": "Judge", "gender_balance": "court", "vote": "synthesize", "weight": 3.0}, {"id": "Witness-0b-CLERK", "ring": "Witness", "set": "0b", "role": "Neutral Clerk", "gender_balance": "neutral", "vote": "synthesize", "weight": 0.25}]}], "ring_decisions": [{"ring": "Light", "scores": {"affirm": 8.0, "oppose": 8.0, "synthesize": 12.25}, "judge": {"id": "Light-0b-JUDGE", "ring": "Light", "set": "0b", "role": "Judge", "gender_balance": "court", "vote": "synthesize", "weight": 3.0}, "decision": "synthesize"}, {"ring": "Shadow", "scores": {"affirm": 8.0, "oppose": 8.0, "synthesize": 12.25}, "judge": {"id": "Shadow-0b-JUDGE", "ring": "Shadow", "set": "0b", "role": "Judge", "gender_balance": "court", "vote": "synthesize", "weight": 3.0}, "decision": "synthesize"}, {"ring": "Witness", "scores": {"affirm": 8.0, "oppose": 8.0, "synthesize": 12.25}, "judge": {"id": "Witness-0b-JUDGE", "ring": "Witness", "set": "0b", "role": "Judge", "gender_balance": "court", "vote": "synthesize", "weight": 3.0}, "decision": "synthesize"}], "final_judges": [{"id": "Light-0b-JUDGE", "ring": "Light", "set": "0b", "role": "Judge", "gender_balance": "court", "vote": "synthesize", "weight": 3.0}, {"id": "Shadow-0b-JUDGE", "ring": "Shadow", "set": "0b", "role": "Judge", "gender_balance": "court", "vote": "synthesize", "weight": 3.0}, {"id": "Witness-0b-JUDGE", "ring": "Witness", "set": "0b", "role": "Judge", "gender_balance": "court", "vote": "synthesize", "weight": 3.0}], "final_scores": {"affirm": 0, "oppose": 0, "synthesize": 3}, "final_decision": "synthesize", "operating_law": "Each ring reaches a local witness decision; the three ring judges produce the final system decision."};
+let selected = null;
+const stage = document.getElementById("stage");
+
+function placeAgents() {
+  document.querySelectorAll(".agent").forEach(x=>x.remove());
+  const rings = record.rings;
+  const specs = [
+    {radius:155, cls:"a0", name:"Light"},
+    {radius:235, cls:"b0", name:"Shadow"},
+    {radius:315, cls:"c0", name:"Witness"}
+  ];
+  const cx = 360, cy = 360;
+  rings.forEach((ring, ri) => {
+    const agents = ring.set_0a.concat(ring.set_0b);
+    const spec = specs[ri];
+    agents.forEach((a, i) => {
+      const offset = ri === 0 ? 0 : ri === 1 ? Math.PI : Math.PI/2;
+      const angle = offset + (i / agents.length) * Math.PI * 2;
+      const el = document.createElement("div");
+      el.className = "agent " + spec.cls + (a.role === "Judge" ? " judge" : "");
+      el.style.left = (cx + Math.cos(angle)*spec.radius - (a.role === "Judge" ? 29 : 22)) + "px";
+      el.style.top = (cy + Math.sin(angle)*spec.radius - (a.role === "Judge" ? 29 : 22)) + "px";
+      el.innerHTML = a.role === "Judge" ? "JUDGE<br>"+a.ring : (a.set+"<br>"+a.gender_balance[0].toUpperCase());
+      el.onclick = () => { selected = a; render(); };
+      stage.appendChild(el);
+    });
+  });
+}
+
+function render() {
+  document.querySelectorAll(".agent").forEach(el=>el.classList.remove("selected"));
+  document.getElementById("info").textContent = JSON.stringify(selected || {
+    final_decision: record.final_decision,
+    final_scores: record.final_scores,
+    ring_decisions: record.ring_decisions,
+    operating_law: record.operating_law
+  }, null, 2);
+}
+
+function pulse() {
+  const agents = [...document.querySelectorAll(".agent")];
+  let i = 0;
+  const timer = setInterval(() => {
+    agents.forEach(a=>a.classList.remove("selected"));
+    agents[i].classList.add("selected");
+    i++;
+    if(i >= agents.length) clearInterval(timer);
+  }, 35);
+}
+
+function showJudges() {
+  selected = record.final_judges;
+  render();
+  document.querySelectorAll(".judge").forEach(j=>j.classList.add("selected"));
+}
+
+function resetSelect() {
+  selected = null;
+  document.querySelectorAll(".agent").forEach(a=>a.classList.remove("selected"));
+  render();
+}
+
+placeAgents();
+render();
+</script>
+</body>
+</html>
