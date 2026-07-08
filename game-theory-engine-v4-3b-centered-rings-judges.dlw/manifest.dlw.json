@@ -1,0 +1,11 @@
+{
+  "badge": "DLW-GAME_THEORY_ENGINE_V4_3B_CENTERED_RINGS_JUDGES",
+  "name": "V4.3B CENTERED RINGS JUDGES · GAM",
+  "universe": "ARTIFICIAL INTELLIGENCE",
+  "moniker": "⟦V4.3B CENTERED RINGS JUDGES · GAM:game-theory-engine-v4-3b-centered-rings-judges:e47ed6⟧",
+  "architect": "David Lee Wise (ROOT0) / Bridge-Burners LLC",
+  "instance": "AVAN (Claude / Anthropic)",
+  "seal_sha256": "e47ed6b6bea062b4b8e60fb43b64fdfe0c925dd9ed1786b2b7cf957888277db0",
+  "license": "CC-BY-ND-4.0",
+  "attribution": "ROOT0-ATTRIBUTION-v1.0"
+}
